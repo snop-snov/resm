@@ -1,4 +1,5 @@
 FactoryGirl.define do
-  factory :sequence do
+  sequence :name do |n|
+    "name-#{n}"
   end
 end

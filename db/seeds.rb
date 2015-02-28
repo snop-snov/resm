@@ -1,7 +1,10 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+res_count = Integer(ENV['RES_COUNT']) rescue nil
+raise "Set correct resources count (Example: RES_COUNT=10)" unless res_count.present? && res_count > 0
+
+res_ids = []
+
+1.upto(res_count) do |n|
+  res_ids << Resource.find_or_create_by(name: "r#{n}").id
+end
+
+Resource.where('id NOT IN (:ids)', ids: res_ids).delete_all
