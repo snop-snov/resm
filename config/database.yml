@@ -1,0 +1,16 @@
+setup: &setup
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *setup
+  database: resm_development
+  username: user
+  password:
+
+test:
+  <<: *setup
+  database: resm_test
+  username: user
+  password:
