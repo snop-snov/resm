@@ -2,7 +2,7 @@ class Api::ResourcesController < Api::ApplicationController
   def allocate
     #NOTE use queue or transaction if high load expected
     user = User.find_or_create_by(name: params[:username])
-    resource = Resource.deallocated.first
+    resource = Resource.deallocated.by_name.first
 
     if resource.present?
       user.resources << resource
@@ -26,10 +26,10 @@ class Api::ResourcesController < Api::ApplicationController
   def list
     if params[:username].present?
       user = User.find_or_create_by(name: params[:username])
-      result = user.resources.map(&:name)
+      result = user.resources.by_name.map(&:name)
     else
-      allocated = Resource.allocated.map{|r| [r.name, r.user.name]}.to_h
-      deallocated = Resource.deallocated.map(&:name)
+      allocated = Resource.allocated.by_name.map{|r| [r.name, r.user.name]}.to_h
+      deallocated = Resource.deallocated.by_name.map(&:name)
 
       result = { allocated: allocated, deallocated: deallocated }
     end
