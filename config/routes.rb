@@ -4,5 +4,7 @@ Rails.application.routes.draw do
     get '/deallocate/:resource_name', to: 'resources#deallocate'
     get '/list(/:username)', to: 'resources#list'
     get '/reset', to: 'resources#reset'
+
+    match '(*path)', to: 'errors#bad_request', via: :all
   end
 end
